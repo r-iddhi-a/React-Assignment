@@ -1,10 +1,9 @@
-import React from 'react'
+import Image from "next/image";
 
-const about = () => {
+export default function Home() {
   return (
-    <div>
-        <h3>About Page</h3>
-    </div>
-  )
+     <>
+     <h3 className="text-sky-600">Welcome to Next.js 13!</h3>
+     </>
+  );
 }
-export default about;
