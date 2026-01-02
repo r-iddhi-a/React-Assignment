@@ -1,23 +1,26 @@
 "use client";
 
-import { useAuth } from "./Context/AuthContext";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import auth from "../services/firebase";
 import { useRouter } from "../next/navigation";
-import { useEffect } from "react";
+import { useState } from "react";
 
-export default function Dashboard() {
-  const { user, loading } = useAuth();
+export default function Login() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    if (!loading && !user) router.push("/login");
-  }, [user, loading]);
-
-  if (loading) return <p>Loading session...</p>;
+  async function handleLogin() {
+    await signInWithEmailAndPassword(auth, email, password);
+    router.push("/dashboard");
+  }
 
   return (
     <div>
-      <h1>Welcome {user?.email}</h1>
-      <p>Your session is active and persistent.</p>
+      <h1>Login</h1>
+      <input onChange={e => setEmail(e.target.value)} placeholder="Email" />
+      <input type="password" onChange={e => setPassword(e.target.value)} placeholder="Password" />
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 }
